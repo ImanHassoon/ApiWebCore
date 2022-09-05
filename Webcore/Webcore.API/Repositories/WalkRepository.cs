@@ -1,4 +1,5 @@
-﻿using Webcore.API.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using Webcore.API.Data;
 using Webcore.API.Models.Domain;
 
 namespace Webcore.API.Repositories
@@ -10,9 +11,9 @@ namespace Webcore.API.Repositories
         {
 
         }
-        public Task<IEnumerable<Walk>> GetAllAsync()
+        public async Task<IEnumerable<Walk>> GetAllAsync()
         {
-            walksDbContext.Walks.ToListAsync()
+            return await walksDbContext.Walks.ToListAsync();
         }
     }
 }
