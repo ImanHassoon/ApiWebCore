@@ -5,7 +5,7 @@ using Webcore.API.Repositories;
 
 namespace Webcore.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]")] //[controller] the name of controler variable which is value in this section is Region
     [ApiController]
     public class RegionsController : ControllerBase
     {

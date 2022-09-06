@@ -6,14 +6,14 @@ namespace Webcore.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class WalksController
+    public class WalksController: Controller // do not forget to create profile
     {
        
        
             private readonly IWalkRepository walkRepository;
-            private readonly IMapper mapper;
+            private IMapper mapper;
 
-            public WalksController(IRegionRepository regionRepository, IMapper mapper)
+        public WalksController(IWalkRepository walkRepository, IMapper mapper)
             {
                 this.walkRepository = walkRepository;
                 this.mapper = mapper;
@@ -22,7 +22,15 @@ namespace Webcore.API.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllWalk()
         {
-            var walk=new 
+
+            //fetch data from database-domain
+            var walks = await walkRepository.GetAllWalkAsync();
+
+            // convert data from domain to dto
+            var walksDTO = mapper.Map<List<Models.DTO.Walk>>(walks);
+            // return response
+
+            return Ok(walksDTO);
         }
 
         }

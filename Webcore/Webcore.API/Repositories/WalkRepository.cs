@@ -9,11 +9,14 @@ namespace Webcore.API.Repositories
         private readonly WalksDbContext walksDbContext;
         public WalkRepository(WalksDbContext walksDbContext)
         {
-
+            this.walksDbContext = walksDbContext;
         }
-        public async Task<IEnumerable<Walk>> GetAllAsync()
+        public async Task<IEnumerable<Walk>> GetAllWalkAsync()
         {
             return await walksDbContext.Walks.ToListAsync();
         }
+
+        
+      
     }
 }

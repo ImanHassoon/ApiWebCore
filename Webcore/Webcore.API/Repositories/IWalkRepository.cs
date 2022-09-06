@@ -4,6 +4,7 @@ namespace Webcore.API.Repositories
 {
     public interface IWalkRepository  // add class -- interface
     {
-        Task<IEnumerable<Walk>> GetAllAsync()
+        Task<IEnumerable<Walk>> GetAllWalkAsync();
+        
     }
 }
