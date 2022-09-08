@@ -11,12 +11,32 @@ namespace Webcore.API.Repositories
         {
             this.walksDbContext = walksDbContext;
         }
-        public async Task<IEnumerable<Walk>> GetAllWalkAsync()
+
+        public async Task<Walk> AddAsync(Walk walk)
+
         {
-            return await walksDbContext.Walks.ToListAsync();
+            // assign new id
+            walk.Id=Guid.NewGuid(); 
+            await walksDbContext.Walks.AddAsync(walk); 
+            await walksDbContext.SaveChangesAsync();
+            return walk;
+
         }
 
-        
-      
+        public async Task<IEnumerable<Walk>> GetAllWalkAsync()
+        {
+            return await walksDbContext.Walks
+                .Include(x=>x.Region)
+                .Include(x=>x.WalkDifficulty)
+                .ToListAsync();
+        }
+
+        public  Task<Walk> GetAsync(Guid id)
+        {
+            return  walksDbContext.Walks
+                .Include(x => x.Region)
+                .Include(x => x.WalkDifficulty)
+                .FirstOrDefaultAsync(x=>x.Id==id);
+        }
     }
 }

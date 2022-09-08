@@ -8,7 +8,7 @@
         public Guid RegionId { get; set; }
         public Guid WalkDifficultyId { get; set; }
         // navigation
-        public Region Region { get; set; }
+        public Region Region { get; set; } // region --> region name
         public WalkDifficulty WalkDifficulty { get; set; }
     }
 }
