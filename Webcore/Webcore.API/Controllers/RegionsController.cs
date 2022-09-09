@@ -22,7 +22,7 @@ namespace Webcore.API.Controllers
   
 
         [HttpGet]
-        public async Task<IActionResult> GetAllRegions()
+        public async Task<IActionResult> GetAllRegionsAsync()
         {
             var regions = await regionRepository.GetAllAsync();
           /*  var regionsDTO = new List<Models.DTO.Region>();
@@ -44,5 +44,18 @@ namespace Webcore.API.Controllers
             return Ok(regionsDTO);
 
             }
+        [HttpGet]
+        [Route("{id:Guid}")]
+        public async Task<IActionResult> GetRegionAsync(Guid id)
+        {
+            var regions = await regionRepository.GetAsync(id);
+            if (regions == null)
+            {
+                return NotFound();
+            }
+            var regionsDTO=mapper.Map<Models.DTO.Region>(regions);
+            return Ok(regionsDTO);
+
+        }
     }
 }

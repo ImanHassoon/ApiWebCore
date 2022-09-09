@@ -16,5 +16,10 @@ namespace Webcore.API.Repositories
         {
             return await  walksDbContext.Regions.ToListAsync();
         }
+
+        public async Task<Region> GetAsync(Guid id)
+        {
+            return await walksDbContext.Regions.FirstOrDefaultAsync(x => x.Id == id);
+        }
     }
 }
