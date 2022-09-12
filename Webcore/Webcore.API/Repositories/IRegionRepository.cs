@@ -9,5 +9,6 @@ namespace Webcore.API.Repositories
         Task<Region> AddAsync(Region region);   //return a region
         Task<Region> DeleteAsync(Guid id);
         Task<Region> UpdateAsync(Guid id, Region region);
+        
     }
 }

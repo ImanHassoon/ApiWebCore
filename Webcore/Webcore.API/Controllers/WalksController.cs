@@ -34,7 +34,7 @@ namespace Webcore.API.Controllers
         }
         [HttpGet]
         [Route("{id:Guid}")]
-        [ActionName("AddWalkAsync")]
+        [ActionName("GetWalkAsync")]
        
         public async Task<IActionResult> GetWalkAsync(Guid id)
         {
@@ -69,14 +69,73 @@ namespace Webcore.API.Controllers
             {
                 Id = walkDoamin.Id,
                 Name = walkDoamin.Name,
+                Length = walkDoamin.Length,
                 RegionId = walkDoamin.RegionId,
                 WalkDifficultyId = walkDoamin.WalkDifficultyId,
             };
 
             //send dto back to client
-            return CreatedAtAction(nameof(GetWalkAsync), new { id = walkDTO.Id, walkDTO });
+            return CreatedAtAction(nameof(GetWalkAsync), new { id = walkDTO.Id }, walkDTO );
 
         }
+        [HttpPut]
+        [Route("{id:Guid}")]
+        public async Task<IActionResult> UpdateWalkAsync([FromRoute] Guid id, [FromBody] Models.DTO.UpdateWalkRequest updateWalkRequest)
+        {
+            //convert DTO to domain
+            var walkDoamin = new Models.Domain.Walk
+            {
+                Length = updateWalkRequest.Length,
+                Name = updateWalkRequest.Name,
+                RegionId = updateWalkRequest.RegionId,
+                WalkDifficultyId = updateWalkRequest.WalkDifficultyId,
+            };
+
+
+            // pass details to repository 
+           walkDoamin=await walkRepository.UpadteAsync(id, walkDoamin);
+
+            // handle Null
+            if(walkDoamin==null)
+            {
+                return null;
+            }
+            //convert back domain to dto
+            
+                var walkDTO = new Models.DTO.Walk
+                {
+                    Id = walkDoamin.Id,
+                    Name = walkDoamin.Name,
+                    Length=walkDoamin.Length,
+                    RegionId = walkDoamin.RegionId,
+                    WalkDifficultyId = walkDoamin.WalkDifficultyId,
+                };
+            // return response    
+            return Ok(walkDTO);
+            
+           
+
+           
+        }
+
+        [HttpDelete]
+        [Route("{id:Guid}")]
+        public async Task<IActionResult> DeleyeWalkAsync(Guid id)
+        {
+            // get walk from db
+            var walkDomain = await walkRepository.DeleteAsync(id);
+
+            // if null
+            if (walkDomain == null)
+                return NotFound();
+
+            // convert responce to dto
+            var walkDTO = mapper.Map<Models.DTO.Walk>(walkDomain);
+
+            //return OK response
+            return Ok(walkDTO);
+        }
+
 
     }
     }
