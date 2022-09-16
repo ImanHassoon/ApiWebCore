@@ -1,4 +1,4 @@
-﻿namespace Webcore.API.Models.Domain
+﻿namespace Webcore.API.Models.DTO
 {
     public class Walk
     {
@@ -8,7 +8,7 @@
         public Guid RegionId { get; set; }
         public Guid WalkDifficultyId { get; set; }
         // navigation
-        public Region Region { get; set; } // region --> region name
+        public Region Region { get; set; }
         public WalkDifficulty WalkDifficulty { get; set; }
     }
 }
