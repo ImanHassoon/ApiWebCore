@@ -61,6 +61,12 @@ namespace Webcore.API.Controllers
         [HttpPost]
         public async Task<IActionResult> AddRegionAsync(Models.DTO.AddRegionRequest addRegionRequest)
         {
+
+            // validate the request
+            if (!ValidateAddRegionAsync(addRegionRequest))
+            {
+                return BadRequest(ModelState);
+            }
             //request(DTO) to Domain Model
             var region = new Models.Domain.Region()
             {
@@ -158,5 +164,40 @@ namespace Webcore.API.Controllers
             // return OK 
             return Ok(regionDTO);
         }
+        #region MyRegion
+        private Boolean ValidateAddRegionAsync(Models.DTO.AddRegionRequest addRegionRequest)
+        {
+            if (addRegionRequest==null)
+            { 
+                ModelState.AddModelError(nameof(addRegionRequest), $"{nameof(addRegionRequest)} can not not be null");
+                return false;
+            }
+            if (string.IsNullOrEmpty(addRegionRequest.Code))
+            {
+                ModelState.AddModelError(nameof(addRegionRequest.Code), $"{nameof(addRegionRequest.Code)} can not not be empty");
+            }
+
+            if (string.IsNullOrEmpty(addRegionRequest.Name))
+                ModelState.AddModelError(nameof(addRegionRequest.Name), $"{nameof(addRegionRequest.Name)} can not not be empty");
+           
+            
+            
+            if (addRegionRequest.Area <=0)
+                ModelState.AddModelError(nameof(addRegionRequest.Area), $"{nameof(addRegionRequest.Area)} can not not be less or equal to 0");
+            if (addRegionRequest.Lat <= 0)
+                ModelState.AddModelError(nameof(addRegionRequest.Lat), $"{nameof(addRegionRequest.Lat)} can not not be less or equal to 0");
+
+            if (addRegionRequest.Long <= 0)
+                ModelState.AddModelError(nameof(addRegionRequest.Long), $"{nameof(addRegionRequest.Long)} can not not be less or equal to 0");
+            if (addRegionRequest.Population < 0)
+                ModelState.AddModelError(nameof(addRegionRequest.Population), $"{nameof(addRegionRequest.Population)} can not not be less or equal to 0");
+            if (ModelState.ErrorCount>0)
+            {
+
+                return false;
+            }
+            return true;
+        }
+        #endregion
     }
 }
