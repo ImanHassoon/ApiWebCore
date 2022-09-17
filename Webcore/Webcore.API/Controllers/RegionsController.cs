@@ -73,6 +73,7 @@ namespace Webcore.API.Controllers
             };
 
             //pass details to the repository
+            
             region = await regionRepository.AddAsync(region);
 
             // Convert back to DTO
@@ -97,7 +98,7 @@ namespace Webcore.API.Controllers
 
         {
             // get region from db
-           var region =await regionRepository.DeleteAsync(id);
+            var region = await regionRepository.DeleteAsync(id);
 
             // if null
             if (region == null)

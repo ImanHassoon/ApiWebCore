@@ -11,14 +11,14 @@ namespace Webcore.API.Controllers
 
 
         private readonly IWalkRepository walkRepository;
-        private IMapper mapper;
+            private IMapper mapper;
 
         public WalksController(IWalkRepository walkRepository, IMapper mapper)
-        {
-            this.walkRepository = walkRepository;
-            this.mapper = mapper;
+            {
+                this.walkRepository = walkRepository;
+                this.mapper = mapper;
 
-        }
+            }
         [HttpGet]
         public async Task<IActionResult> GetAllWalk()
         {
@@ -35,7 +35,7 @@ namespace Webcore.API.Controllers
         [HttpGet]
         [Route("{id:Guid}")]
         [ActionName("GetWalkAsync")]
-
+       
         public async Task<IActionResult> GetWalkAsync(Guid id)
         {
             var walks = await walkRepository.GetAsync(id);
@@ -62,7 +62,7 @@ namespace Webcore.API.Controllers
             };
 
             //pass domain object to repository to presist this
-            var walkdmn = await walkRepository.AddAsync(walkDoamin);
+            var walkdmn=await walkRepository.AddAsync(walkDoamin);
 
             //convert the domain object into dto
             var walkDTO = new Models.DTO.Walk
@@ -75,7 +75,7 @@ namespace Webcore.API.Controllers
             };
 
             //send dto back to client
-            return CreatedAtAction(nameof(GetWalkAsync), new { id = walkDTO.Id }, walkDTO);
+            return CreatedAtAction(nameof(GetWalkAsync), new { id = walkDTO.Id }, walkDTO );
 
         }
         [HttpPut]
@@ -93,29 +93,28 @@ namespace Webcore.API.Controllers
 
 
             // pass details to repository 
-            walkDoamin = await walkRepository.UpdateAsync(id, walkDoamin);
+           walkDoamin=await walkRepository.UpadteAsync(id, walkDoamin);
 
             // handle Null
-            if (walkDoamin == null)
+            if(walkDoamin==null)
             {
                 return null;
             }
             //convert back domain to dto
-
-            var walkDTO = new Models.DTO.Walk
-            {
-                Id = walkDoamin.Id,
-                Name = walkDoamin.Name,
-                Length = walkDoamin.Length,
-                RegionId = walkDoamin.RegionId,
-                WalkDifficultyId = walkDoamin.WalkDifficultyId,
-            };
+            
+                var walkDTO = new Models.DTO.Walk
+                {
+                    Id = walkDoamin.Id,
+                    Name = walkDoamin.Name,
+                    RegionId = walkDoamin.RegionId,
+                    WalkDifficultyId = walkDoamin.WalkDifficultyId,
+                };
             // return response    
             return Ok(walkDTO);
+            
+           
 
-
-
-
+           
         }
 
         [HttpDelete]
@@ -138,4 +137,4 @@ namespace Webcore.API.Controllers
 
 
     }
-}
+    }

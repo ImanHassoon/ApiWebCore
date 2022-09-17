@@ -20,16 +20,7 @@ namespace Webcore.API.Repositories
             return region;
         }
 
-        public async Task<Region> DeleteAsync(Guid id)
-        {
-            var region= await walksDbContext.Regions.FirstOrDefaultAsync(x => x.Id == id);
-            if (region == null) 
-                return null;
-            walksDbContext.Regions.Remove(region);
-            await walksDbContext.SaveChangesAsync();
-            return region;
-
-        }
+    
 
         public async Task<IEnumerable<Region>> GetAllAsync()
         {
@@ -55,6 +46,16 @@ namespace Webcore.API.Repositories
             await walksDbContext.SaveChangesAsync();
             return existregion; 
 
+        }
+
+        public async Task<Region> DeleteAsync(Guid id)
+        {
+            var region = await walksDbContext.Regions.FirstOrDefaultAsync(x => x.Id == id);
+            if (region == null)
+                return null;
+            walksDbContext.Regions.Remove(region);
+            await walksDbContext.SaveChangesAsync();
+            return region;
         }
     }
 }
