@@ -41,7 +41,7 @@ namespace Webcore.API.Repositories
 
         public async Task<WalkDifficulty> GetAsync(Guid id)
         {
-            return await walksDbContext.WalkDifficulties.FirstAsync(x => x.Id == id);
+            return await walksDbContext.WalkDifficulties.FirstOrDefaultAsync(x => x.Id == id); // first or default important especially when not found id case
             
         }
 
