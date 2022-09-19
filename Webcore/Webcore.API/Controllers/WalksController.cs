@@ -83,7 +83,7 @@ namespace Webcore.API.Controllers
             };
 
             //send dto back to client
-
+            return CreatedAtAction(nameof(GetWalkAsync), new { id = walkDTO.Id }, walkDTO);
         }
         [HttpPut]
         [Route("{id:Guid}")]
@@ -150,7 +150,9 @@ namespace Webcore.API.Controllers
         #region private methods
         private async Task<bool> ValidateAddWalkAsync(Models.DTO.AddWalkRequest addWalkRequest)
         {
-                ModelState.AddModelError(nameof(addWalkRequest), $"{nameof(addWalkRequest)} can not not be null");
+            if (addWalkRequest == null)
+            { 
+             ModelState.AddModelError(nameof(addWalkRequest), $"{nameof(addWalkRequest)} can not not be null");
                 return false;
             }
             if (string.IsNullOrEmpty(addWalkRequest.Name))
@@ -160,13 +162,44 @@ namespace Webcore.API.Controllers
             {
                 ModelState.AddModelError(nameof(addWalkRequest.Length), $"{nameof(addWalkRequest.Length)} can not not be <= 0");
             }
+            var region = await regionRepository.GetAsync(addWalkRequest.RegionId);
             if (region == null)
             {
                 ModelState.AddModelError(nameof(addWalkRequest.RegionId), $"{nameof(addWalkRequest.RegionId)} is not valid");
             }
+            var walkDiff = await walkDifficultyRepository.GetAsync(addWalkRequest.WalkDifficultyId);
             if (walkDiff == null)
             {
                 ModelState.AddModelError(nameof(addWalkRequest.WalkDifficultyId), $"{nameof(addWalkRequest.WalkDifficultyId)} is not valid");
+            }
+            {
+                return false;
+            }
+            return true;
+        }
+        private async Task<bool> ValidateUpdateWalkAsync(Models.DTO.UpdateWalkRequest UpdateWalkRequest)
+        {
+            if (UpdateWalkRequest == null)
+            {
+                ModelState.AddModelError(nameof(UpdateWalkRequest), $"{nameof(UpdateWalkRequest)} can not not be null");
+                return false;
+            }
+            if (string.IsNullOrEmpty(UpdateWalkRequest.Name))
+            {
+                ModelState.AddModelError(nameof(UpdateWalkRequest.Name), $"{nameof(UpdateWalkRequest.Name)} can not not be empty");
+            }
+            {
+                ModelState.AddModelError(nameof(UpdateWalkRequest.Length), $"{nameof(UpdateWalkRequest.Length)} can not not be <= 0");
+            }
+            var region = await regionRepository.GetAsync(UpdateWalkRequest.RegionId);
+            if (region == null)
+            {
+                ModelState.AddModelError(nameof(UpdateWalkRequest.RegionId), $"{nameof(UpdateWalkRequest.RegionId)} is not valid");
+            }
+            var walkDiff = await walkDifficultyRepository.GetAsync(UpdateWalkRequest.WalkDifficultyId);
+            if (walkDiff == null)
+            {
+                ModelState.AddModelError(nameof(UpdateWalkRequest.WalkDifficultyId), $"{nameof(UpdateWalkRequest.WalkDifficultyId)} is not valid");
             }
             {
                 return false;
