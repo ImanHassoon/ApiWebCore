@@ -20,20 +20,11 @@ namespace Webcore.API.Repositories
             return region;
         }
 
-        public async Task<Region> DeleteAsync(Guid id)
-        {
-            var region= await walksDbContext.Regions.FirstOrDefaultAsync(x => x.Id == id);
-            if (region == null) 
-                return null;
-            walksDbContext.Regions.Remove(region);
-            await walksDbContext.SaveChangesAsync();
-            return region;
 
-        }
 
         public async Task<IEnumerable<Region>> GetAllAsync()
         {
-            return await  walksDbContext.Regions.ToListAsync();
+            return await walksDbContext.Regions.ToListAsync();
         }
         public async Task<Region> GetAsync(Guid id)
         {
@@ -42,19 +33,29 @@ namespace Webcore.API.Repositories
 
         public async Task<Region> UpdateAsync(Guid id, Region region)
         {
-            var existregion=await walksDbContext.Regions.FirstOrDefaultAsync(x => x.Id == id);
+            var existregion = await walksDbContext.Regions.FirstOrDefaultAsync(x => x.Id == id);
             if (existregion == null)
                 return null;
-            existregion.Code=region.Code;
-            existregion.Name=region.Name;
-            existregion.Area=region.Area;
-            existregion.Lat=region.Lat;
-            existregion.Long=region.Long;
-            existregion.Population=region.Population;
+            existregion.Code = region.Code;
+            existregion.Name = region.Name;
+            existregion.Area = region.Area;
+            existregion.Lat = region.Lat;
+            existregion.Long = region.Long;
+            existregion.Population = region.Population;
 
             await walksDbContext.SaveChangesAsync();
-            return existregion; 
+            return existregion;
 
+        }
+
+        public async Task<Region> DeleteAsync(Guid id)
+        {
+            var region = await walksDbContext.Regions.FirstOrDefaultAsync(x => x.Id == id);
+            if (region == null)
+                return null;
+            walksDbContext.Regions.Remove(region);
+            await walksDbContext.SaveChangesAsync();
+            return region;
         }
     }
 }

@@ -41,6 +41,12 @@ namespace Webcore.API.Controllers
         [HttpPost]
         public async Task<IActionResult> AddWalkDifficultyASync(Models.DTO.AddWalkDifficultyRequest walkDifficultyRequest)
         {
+            // validate
+
+            if (!(ValidateAddWalkDiff(walkDifficultyRequest)))
+            {
+                return BadRequest(ModelState);
+            }
             var walkDiffDomain = new Models.Domain.WalkDifficulty
             {
                 Code = walkDifficultyRequest.Code,
@@ -59,6 +65,12 @@ namespace Webcore.API.Controllers
         [Route("{id:guid}")]
         public  async Task<IActionResult> UpdateWalkDiffAsync(Guid id, Models.DTO.UpdateWalkDifficultyRequest updateWalkDifficultyRequest)
         {
+            // validate
+            if (!ValidateUpdateWalkDiff(updateWalkDifficultyRequest))
+            {
+                return BadRequest(ModelState);
+            }
+            //  convert
             var walkDiffDomain = new Models.Domain.WalkDifficulty
             {
                 Code = updateWalkDifficultyRequest.Code,
@@ -69,5 +81,50 @@ namespace Webcore.API.Controllers
             return Ok(walkDiffDto);
 
         }
+
+        [HttpDelete]
+        [Route("{id:guid}")]
+
+        public async Task<IActionResult> DeleteWalkDiffAsync(Guid id)
+        {
+            var walkdiffdele=await walkDifficultyRepository.DeleteAsync(id);
+            if (walkdiffdele == null)
+                return null;
+         
+            var   walkDiffDto=mapper.Map<Models.DTO.WalkDifficulty>(walkdiffdele);
+            return Ok(walkDiffDto);
+
+        }
+        #region private methods
+        private bool ValidateAddWalkDiff(Models.DTO.AddWalkDifficultyRequest walkDifficultyRequest)
+        {
+            if (walkDifficultyRequest == null)
+            {
+                ModelState.AddModelError(nameof(walkDifficultyRequest), $"{nameof(walkDifficultyRequest)} can not not be null");
+                return false;
+            }
+            if(string.IsNullOrEmpty(walkDifficultyRequest.Code))
+            {
+                ModelState.AddModelError(nameof(walkDifficultyRequest.Code), $"{nameof(walkDifficultyRequest.Code)} can not not be null");
+                return false;
+            }
+            return true;
+        }
+
+        private bool ValidateUpdateWalkDiff(Models.DTO.UpdateWalkDifficultyRequest walkDifficultyUpdateRequest)
+        {
+            if (walkDifficultyUpdateRequest == null)
+            {
+                ModelState.AddModelError(nameof(walkDifficultyUpdateRequest), $"{nameof(walkDifficultyUpdateRequest)} can not not be null");
+                return false;
+            }
+            if (string.IsNullOrEmpty(walkDifficultyUpdateRequest.Code))
+            {
+                ModelState.AddModelError(nameof(walkDifficultyUpdateRequest.Code), $"{nameof(walkDifficultyUpdateRequest.Code)} can not not be null");
+                return false;
+            }
+            return true;
+        }
+        #endregion
     }
 }

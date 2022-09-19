@@ -21,6 +21,18 @@ namespace Webcore.API.Repositories
             return walkDifficulty;
         }
 
+        public async Task<WalkDifficulty> DeleteAsync(Guid id)
+        {
+            var existWalkDiff = await walksDbContext.WalkDifficulties.FindAsync(id);
+            if (existWalkDiff != null)
+            { 
+                walksDbContext.WalkDifficulties.Remove(existWalkDiff);
+                walksDbContext.SaveChangesAsync();
+                return existWalkDiff;
+            }
+            return null;
+        }
+
         public async Task<IEnumerable<WalkDifficulty>> GetAllAsync()
         {
             return await walksDbContext.WalkDifficulties.ToListAsync();
@@ -29,7 +41,7 @@ namespace Webcore.API.Repositories
 
         public async Task<WalkDifficulty> GetAsync(Guid id)
         {
-            return await walksDbContext.WalkDifficulties.FirstAsync(x => x.Id == id);
+            return await walksDbContext.WalkDifficulties.FirstOrDefaultAsync(x => x.Id == id); // first or default important especially when not found id case
             
         }
 
