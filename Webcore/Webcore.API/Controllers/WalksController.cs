@@ -16,9 +16,9 @@ namespace Webcore.API.Controllers
         private readonly IWalkDifficultyRepository walkDifficultyRepository;
 
         public WalksController(IWalkRepository walkRepository, IMapper mapper, IRegionRepository regionRepository, IWalkDifficultyRepository walkDifficultyRepository)
-        {
-            this.walkRepository = walkRepository;
-            this.mapper = mapper;
+            {
+                this.walkRepository = walkRepository;
+                this.mapper = mapper;
             this.regionRepository = regionRepository;
             this.walkDifficultyRepository = walkDifficultyRepository;
         }
@@ -38,7 +38,7 @@ namespace Webcore.API.Controllers
         [HttpGet]
         [Route("{id:Guid}")]
         [ActionName("GetWalkAsync")]
-
+       
         public async Task<IActionResult> GetWalkAsync(Guid id)
         {
             var walks = await walkRepository.GetAsync(id);
@@ -57,7 +57,7 @@ namespace Webcore.API.Controllers
         {
 
             if (!(await ValidateAddWalkAsync(addWalkRequest)))
-            {
+                {
                 return BadRequest(ModelState);
             }
             //Convert DTO to Domain 
@@ -83,7 +83,6 @@ namespace Webcore.API.Controllers
             };
 
             //send dto back to client
-            return CreatedAtAction(nameof(GetWalkAsync), new { id = walkDTO.Id }, walkDTO);
 
         }
         [HttpPut]
@@ -106,28 +105,26 @@ namespace Webcore.API.Controllers
 
 
             // pass details to repository 
-            walkDoamin = await walkRepository.UpadteAsync(id, walkDoamin);
 
             // handle Null
-            if (walkDoamin == null)
             {
                 return null;
             }
             //convert back domain to dto
-
-            var walkDTO = new Models.DTO.Walk
-            {
-                Id = walkDoamin.Id,
-                Name = walkDoamin.Name,
-                RegionId = walkDoamin.RegionId,
-                WalkDifficultyId = walkDoamin.WalkDifficultyId,
-            };
+            
+                var walkDTO = new Models.DTO.Walk
+                {
+                    Id = walkDoamin.Id,
+                    Name = walkDoamin.Name,
+                    RegionId = walkDoamin.RegionId,
+                    WalkDifficultyId = walkDoamin.WalkDifficultyId,
+                };
             // return response    
             return Ok(walkDTO);
+            
+           
 
-
-
-
+           
         }
 
         [HttpDelete]
@@ -153,8 +150,6 @@ namespace Webcore.API.Controllers
         #region private methods
         private async Task<bool> ValidateAddWalkAsync(Models.DTO.AddWalkRequest addWalkRequest)
         {
-            if (addWalkRequest == null)
-            {
                 ModelState.AddModelError(nameof(addWalkRequest), $"{nameof(addWalkRequest)} can not not be null");
                 return false;
             }
@@ -162,52 +157,17 @@ namespace Webcore.API.Controllers
             {
                 ModelState.AddModelError(nameof(addWalkRequest.Name), $"{nameof(addWalkRequest.Name)} can not not be empty");
             }
-            if (addWalkRequest.Length <= 0)
             {
                 ModelState.AddModelError(nameof(addWalkRequest.Length), $"{nameof(addWalkRequest.Length)} can not not be <= 0");
             }
-            var region = await regionRepository.GetAsync(addWalkRequest.RegionId);
             if (region == null)
             {
                 ModelState.AddModelError(nameof(addWalkRequest.RegionId), $"{nameof(addWalkRequest.RegionId)} is not valid");
             }
-            var walkDiff = await walkDifficultyRepository.GetAsync(addWalkRequest.WalkDifficultyId);
             if (walkDiff == null)
             {
                 ModelState.AddModelError(nameof(addWalkRequest.WalkDifficultyId), $"{nameof(addWalkRequest.WalkDifficultyId)} is not valid");
             }
-            if (ModelState.ErrorCount > 0)
-            {
-                return false;
-            }
-            return true;
-        }
-        private async Task<bool> ValidateUpdateWalkAsync(Models.DTO.UpdateWalkRequest updateWalkRequest)
-        {
-            if (updateWalkRequest == null)
-            {
-                ModelState.AddModelError(nameof(updateWalkRequest), $"{nameof(updateWalkRequest)} can not not be null");
-                return false;
-            }
-            if (string.IsNullOrEmpty(updateWalkRequest.Name))
-            {
-                ModelState.AddModelError(nameof(updateWalkRequest.Name), $"{nameof(updateWalkRequest.Name)} can not not be empty");
-            }
-            if (updateWalkRequest.Length <= 0)
-            {
-                ModelState.AddModelError(nameof(updateWalkRequest.Length), $"{nameof(updateWalkRequest.Length)} can not not be <= 0");
-            }
-            var region = await regionRepository.GetAsync(updateWalkRequest.RegionId);
-            if (region == null)
-            {
-                ModelState.AddModelError(nameof(updateWalkRequest.RegionId), $"{nameof(updateWalkRequest.RegionId)} is not valid");
-            }
-            var walkDiff = await walkDifficultyRepository.GetAsync(updateWalkRequest.WalkDifficultyId);
-            if (walkDiff == null)
-            {
-                ModelState.AddModelError(nameof(updateWalkRequest.WalkDifficultyId), $"{nameof(updateWalkRequest.WalkDifficultyId)} is not valid");
-            }
-            if (ModelState.ErrorCount > 0)
             {
                 return false;
             }
