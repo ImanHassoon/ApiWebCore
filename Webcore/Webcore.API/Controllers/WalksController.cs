@@ -150,18 +150,18 @@ namespace Webcore.API.Controllers
         #region private methods
         private async Task<bool> ValidateAddWalkAsync(Models.DTO.AddWalkRequest addWalkRequest)
         {
-            if (addWalkRequest == null)
+          /*  if (addWalkRequest == null)
             { 
              ModelState.AddModelError(nameof(addWalkRequest), $"{nameof(addWalkRequest)} can not not be null");
                 return false;
-            }
-            if (string.IsNullOrEmpty(addWalkRequest.Name))
-            {
-                ModelState.AddModelError(nameof(addWalkRequest.Name), $"{nameof(addWalkRequest.Name)} can not not be empty");
-            }
-            {
-                ModelState.AddModelError(nameof(addWalkRequest.Length), $"{nameof(addWalkRequest.Length)} can not not be <= 0");
-            }
+            }*/
+          //  if (string.IsNullOrEmpty(addWalkRequest.Name))
+           // {
+           //     ModelState.AddModelError(nameof(addWalkRequest.Name), $"{nameof(addWalkRequest.Name)} can not not be empty");
+          //  }
+          //  {
+           //     ModelState.AddModelError(nameof(addWalkRequest.Length), $"{nameof(addWalkRequest.Length)} can not not be <= 0");
+          //  }
             var region = await regionRepository.GetAsync(addWalkRequest.RegionId);
             if (region == null)
             {
@@ -179,7 +179,7 @@ namespace Webcore.API.Controllers
         }
         private async Task<bool> ValidateUpdateWalkAsync(Models.DTO.UpdateWalkRequest UpdateWalkRequest)
         {
-            if (UpdateWalkRequest == null)
+           /* if (UpdateWalkRequest == null)
             {
                 ModelState.AddModelError(nameof(UpdateWalkRequest), $"{nameof(UpdateWalkRequest)} can not not be null");
                 return false;
@@ -190,7 +190,7 @@ namespace Webcore.API.Controllers
             }
             {
                 ModelState.AddModelError(nameof(UpdateWalkRequest.Length), $"{nameof(UpdateWalkRequest.Length)} can not not be <= 0");
-            }
+            }*/
             var region = await regionRepository.GetAsync(UpdateWalkRequest.RegionId);
             if (region == null)
             {

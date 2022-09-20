@@ -43,10 +43,10 @@ namespace Webcore.API.Controllers
         {
             // validate
 
-            if (!(ValidateAddWalkDiff(walkDifficultyRequest)))
-            {
-                return BadRequest(ModelState);
-            }
+           // if (!(ValidateAddWalkDiff(walkDifficultyRequest)))
+            //{
+              //  return BadRequest(ModelState);
+            //}
             var walkDiffDomain = new Models.Domain.WalkDifficulty
             {
                 Code = walkDifficultyRequest.Code,

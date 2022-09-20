@@ -2,7 +2,7 @@
 
 namespace Webcore.API.Validators
 {
-    public class UpdateRegionRequestValidator : AbstractValidator<Models.DTO.UpdateRegionRequest>
+    public class UpdateRegionRequestValidator : AbstractValidator<Models.DTO.AddRegionRequest>
     {
         public UpdateRegionRequestValidator()
         {
