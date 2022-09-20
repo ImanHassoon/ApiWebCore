@@ -1,6 +1,8 @@
 using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
+using System.Text;
 using Webcore.API.Data;
 using Webcore.API.Repositories;
 
@@ -24,6 +26,20 @@ builder.Services.AddScoped<IWalkDifficultyRepository, WalkDifficultyRepository>(
 
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
 
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+            options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+        { 
+        ValidateIssuer=true,
+        ValidateAudience=true,
+        ValidateLifetime=true,
+        ValidateIssuerSigningKey=true,
+        ValidIssuer = builder.Configuration["Jwt:Issuer"],
+        ValidAudience= builder.Configuration["Jwt:Audience"],
+        IssuerSigningKey=new Microsoft.IdentityModel.Tokens.SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+
+        });
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -34,6 +50,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 

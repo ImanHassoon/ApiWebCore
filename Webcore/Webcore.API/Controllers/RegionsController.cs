@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Webcore.API.Repositories;
@@ -7,6 +8,7 @@ namespace Webcore.API.Controllers
 {
     [Route("api/[controller]")] //[controller] the name of controler variable which is value in this section is Region
     [ApiController]
+    [Authorize]
     public class RegionsController : ControllerBase
     {
         private readonly IRegionRepository regionRepository;
