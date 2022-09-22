@@ -8,7 +8,7 @@ namespace Webcore.API.Controllers
 {
     [Route("api/[controller]")] //[controller] the name of controler variable which is value in this section is Region
     [ApiController]
-    [Authorize]
+  
     public class RegionsController : ControllerBase
     {
         private readonly IRegionRepository regionRepository;
@@ -24,6 +24,7 @@ namespace Webcore.API.Controllers
 
 
         [HttpGet]
+        [Authorize(Roles = "Reader")]
         public async Task<IActionResult> GetAllRegionsAsync()
         {
             var regions = await regionRepository.GetAllAsync();
@@ -49,6 +50,7 @@ namespace Webcore.API.Controllers
         [HttpGet]
         [Route("{id:Guid}")]
         [ActionName("GetRegionAsync")]
+        [Authorize(Roles = "Reader")]
         public async Task<IActionResult> GetRegionAsync(Guid id)
         {
             var regions = await regionRepository.GetAsync(id);
@@ -61,6 +63,7 @@ namespace Webcore.API.Controllers
 
         }
         [HttpPost]
+        [Authorize(Roles = "writer")]
         public async Task<IActionResult> AddRegionAsync(Models.DTO.AddRegionRequest addRegionRequest)
         {
 
@@ -100,6 +103,7 @@ namespace Webcore.API.Controllers
         }
 
         [HttpDelete]
+        [Authorize]
         [Route("{id:Guid}")]
         public async Task<IActionResult> DeleteRegionAsync(Guid id)
 
@@ -131,6 +135,7 @@ namespace Webcore.API.Controllers
 
         [HttpPut]
         [Route("{id:Guid}")]
+        [Authorize(Roles = "writer")]
         public async Task<IActionResult> PutRegionAsync([FromRoute] Guid id, [FromBody] Models.DTO.UpdateRegionRequest updateregion)
         {
             // validate the request
