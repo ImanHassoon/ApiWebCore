@@ -18,7 +18,7 @@ namespace Webcore.API.Controllers
             this.mapper = mapper;
         }
         [HttpGet]
-        [Authorize(Roles = "Reader")]
+        [Authorize(Roles = "reader")]
         public async Task<IActionResult> GetAllWalkDifficulties()
         {
             var walkdiff = await walkDifficultyRepository.GetAllAsync();
@@ -30,7 +30,7 @@ namespace Webcore.API.Controllers
         [HttpGet]
         [Route("{id:guid}")]
         [ActionName("GetWalkDifficultybyId")]
-        [Authorize(Roles = "Reader")]
+        [Authorize(Roles = "reader")]
         public async Task<IActionResult> GetWalkDifficultybyId(Guid id)
         {
             var walkdiff=await walkDifficultyRepository.GetAsync(id);
@@ -42,7 +42,7 @@ namespace Webcore.API.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Writer")]
+        [Authorize(Roles = "writer")]
         public async Task<IActionResult> AddWalkDifficultyASync(Models.DTO.AddWalkDifficultyRequest walkDifficultyRequest)
         {
             // validate
@@ -67,7 +67,7 @@ namespace Webcore.API.Controllers
 
         [HttpPut]
         [Route("{id:guid}")]
-        [Authorize(Roles = "Writer")]
+        [Authorize(Roles = "writer")]
         public  async Task<IActionResult> UpdateWalkDiffAsync(Guid id, Models.DTO.UpdateWalkDifficultyRequest updateWalkDifficultyRequest)
         {
             // validate
@@ -89,7 +89,7 @@ namespace Webcore.API.Controllers
 
         [HttpDelete]
         [Route("{id:guid}")]
-        [Authorize(Roles = "Writer")]
+        [Authorize(Roles = "writer")]
 
         public async Task<IActionResult> DeleteWalkDiffAsync(Guid id)
         {
