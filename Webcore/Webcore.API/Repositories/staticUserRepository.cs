@@ -6,7 +6,7 @@ namespace Webcore.API.Repositories
     {
         private List<User> Users = new List<User>()
         {
-            new User()
+          /*  new User()
             {
                 Firstname ="ReadOnly",Lastname="User", Email ="ReadOnly@user.com",
                 Id =Guid.NewGuid(),Username="ReadOnly@user.com", Password="ReadOnly@user.com",
@@ -17,7 +17,7 @@ namespace Webcore.API.Repositories
                 Firstname ="Read Write",Lastname="User", Email ="ReadWrite@user.com",
                 Id =Guid.NewGuid(),Username="ReadWrite@user.com", Password="Readwrite@user.com",
                 Roles=new List<string> {"Reader", "Writer"}
-            }
+            }*/
 
         };
         public async Task<User> AuthenticateAsync(string username, string password)

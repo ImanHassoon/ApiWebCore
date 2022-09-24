@@ -23,7 +23,7 @@ namespace Webcore.API.Repositories
             claims.Add(new Claim(ClaimTypes.Surname, user.Lastname));
             claims.Add(new Claim(ClaimTypes.Email, user.Email));
             // loop into roles of users
-            user.Roles.ForEach((role) =>
+           user.Roles.ForEach((role) =>
             {
                 claims.Add(new Claim(ClaimTypes.Role, role));
 

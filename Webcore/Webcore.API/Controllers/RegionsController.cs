@@ -63,7 +63,7 @@ namespace Webcore.API.Controllers
 
         }
         [HttpPost]
-        [Authorize(Roles = "writer")]
+        [Authorize(Roles = "Writer")]
         public async Task<IActionResult> AddRegionAsync(Models.DTO.AddRegionRequest addRegionRequest)
         {
 
@@ -103,7 +103,7 @@ namespace Webcore.API.Controllers
         }
 
         [HttpDelete]
-        [Authorize]
+        [Authorize(Roles = "Writer")]
         [Route("{id:Guid}")]
         public async Task<IActionResult> DeleteRegionAsync(Guid id)
 
@@ -135,7 +135,7 @@ namespace Webcore.API.Controllers
 
         [HttpPut]
         [Route("{id:Guid}")]
-        [Authorize(Roles = "writer")]
+        [Authorize(Roles = "Writer")]
         public async Task<IActionResult> PutRegionAsync([FromRoute] Guid id, [FromBody] Models.DTO.UpdateRegionRequest updateregion)
         {
             // validate the request

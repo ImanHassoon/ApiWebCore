@@ -1,4 +1,6 @@
-﻿namespace Webcore.API.Models.Domain
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace Webcore.API.Models.Domain
 {
     public class User
     {
@@ -6,8 +8,14 @@
         public string Username { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
-        public List<string> Roles { get; set; }
+      
         public string Firstname { get; set; }
         public string Lastname { get; set; }
+        [NotMapped]
+        public List<string> Roles { get; set; }
+
+        //navigation prop
+        public List<User_Role> UserRoles { get; set; }
+
     }
 }

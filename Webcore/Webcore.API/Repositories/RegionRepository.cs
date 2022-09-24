@@ -6,7 +6,7 @@ namespace Webcore.API.Repositories
 {
     public class RegionRepository : IRegionRepository
     {
-        private readonly WalksDbContext walksDbContext;
+         private readonly WalksDbContext walksDbContext;
 
         public RegionRepository(WalksDbContext walksDbContext)
         {
